@@ -1,0 +1,34 @@
+# IDE and editor state
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.vcxproj.user
+*.rsuser
+
+# Logs and OS cruft
+logs/
+**/logs/
+.DS_Store
+
+# CAPI / CMake generated output
+/CAPI/cpp/out/
+
+# .NET build outputs
+[Bb]in/
+[Oo]bj/
+
+# Common native build artifacts
+*.ilk
+*.pdb
+*.VC.db
+*.VC.VC.opendb
+*.Iscache
+*.lscache
+*.cache
+*.claude
+
+# Playback / runtime artifacts
+*.thuaipb
+mygame.thuaipb
