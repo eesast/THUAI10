@@ -1,0 +1,49 @@
+name: format
+on:
+  push:
+    branches: [dev, main, master]
+  pull_request:
+    branches: [dev, main, master]
+jobs:
+  clang-format-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DoozyX/clang-format-lint-action@v0.20
+        with:
+          source: "."
+          extensions: "c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx,i,ixx,ipp,i++"
+          clangFormatVersion: 14
+          exclude: "./CAPI/cpp/grpc/include ./CAPI/cpp/proto ./dependency/proto ./CAPI/cpp/spdlog/include/spdlog ./CAPI/cpp/fmt ./CAPI/cpp/out"
+          inplace: False
+
+  dotnet-format-checking:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Check Logic
+        run: |
+          dotnet restore "./logic/logic.slnx"
+          dotnet format "./logic/logic.slnx" --severity error --no-restore --verify-no-changes
+
+      - name: Check Installer
+        run: |
+          dotnet restore "./installer/installer.slnx"
+          dotnet format "./installer/installer.slnx" --severity error --no-restore --verify-no-changes
+
+      - name: Check Playback
+        run: |
+          dotnet restore "./playback/playback.slnx"
+          dotnet format "./playback/playback.slnx" --severity error --no-restore --verify-no-changes
+
+      - name: Check Interface (Unity)
+        run: |
+          dotnet format whitespace "./interface/Unity/Unity-Live/Assets/Scripts/" --folder --verify-no-changes
+          dotnet format whitespace "./interface/Unity/Unity-Playback/Assets/Scripts/" --folder --verify-no-changes
+          dotnet format whitespace "./interface/Unity/Unity-Trial/Assets/Scripts/" --folder --verify-no-changes
+          dotnet format whitespace "./interface/Unity/Unity-Live/Packages/com.eesast.interface.shared/Runtime/Scripts/" --folder --verify-no-changes
