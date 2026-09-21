@@ -97,7 +97,7 @@ THUAI9 开发组成员与其他贡献者应当遵循以下流程：
       public class Program
       {
           public static void Main()
-          {          
+          {        
           }
       }
   }
