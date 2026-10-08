@@ -31,15 +31,15 @@ jobs:
       - name: Build Installer
         run: dotnet build "./installer/installer.slnx" -c Release
 
-  dotnet-build-playback:
-    if: true
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
+  # dotnet-build-playback:
+  #   if: true
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - name: Setup .NET Core
+  #       uses: actions/setup-dotnet@v5
+  #       with:
+  #         dotnet-version: 10.0.x
 
-      - name: Build Playback
-        run: dotnet build "./playback/playback.slnx" -c Release
+  #     - name: Build Playback
+  #       run: dotnet build "./playback/playback.slnx" -c Release
