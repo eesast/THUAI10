@@ -18,7 +18,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private bool busy;
     private string catalogAddress = string.Empty;
     private string installRoot = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "THUAI10");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "THUAI10", "package");
     private string status = "填写文件清单地址，选择安装位置，然后检查更新。";
     private string version = "尚未检查";
     private string documentText = "下载选手包后，可在这里阅读 docs 文件夹里的 Markdown 文档。";
@@ -237,7 +237,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
             string content = await documents.ReadAsync(InstallRoot.Trim(), name, CancellationToken.None);
             if (selectedDocument == name)
             {
-                DocumentAssetPath = Path.GetFullPath(Path.Combine(InstallRoot.Trim(), "docs", name));
+                DocumentAssetPath = Path.GetDirectoryName(Path.GetFullPath(Path.Combine(InstallRoot.Trim(), "docs", name)));
                 DocumentText = content;
             }
         }
