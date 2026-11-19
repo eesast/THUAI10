@@ -1,0 +1,83 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
+        x:Class="Thuai10.Launcher.MainWindow"
+        Title="THUAI10 · 选手平台"
+        Width="960" Height="680" MinWidth="760" MinHeight="540"
+        Background="#F5F7FB">
+  <Window.Styles>
+    <Style Selector="Button">
+      <Setter Property="Padding" Value="16,8" />
+      <Setter Property="Margin" Value="0,0,8,0" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Margin" Value="0,5,0,12" />
+    </Style>
+  </Window.Styles>
+  <DockPanel Margin="24">
+    <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,18">
+      <TextBlock Text="THUAI10 选手平台" FontSize="28" FontWeight="Bold" Foreground="#16243D" />
+      <TextBlock Text="下载、更新、阅读文档与本地启动" FontSize="14" Foreground="#58677F" />
+    </StackPanel>
+    <TabControl>
+      <TabItem Header="下载与更新">
+        <ScrollViewer>
+          <StackPanel Margin="18" Spacing="6">
+            <TextBlock Text="选手包文件清单地址" FontSize="15" FontWeight="SemiBold" />
+            <TextBlock Text="由平台组发布的 JSON 地址；本机测试可填 localhost 地址。" Foreground="#58677F" />
+            <TextBox Text="{Binding CatalogAddress}" Watermark="https://example.com/thuai10/catalog.json" />
+            <TextBlock Text="安装目录" FontSize="15" FontWeight="SemiBold" />
+            <TextBox Text="{Binding InstallRoot}" Watermark="选手包保存位置" />
+            <Button Content="选择文件夹" Click="ChooseFolderClick" HorizontalAlignment="Left" />
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,8">
+              <Button Content="检查更新" Command="{Binding CheckCommand}" />
+              <Button Content="下载 / 继续" Command="{Binding DownloadCommand}" />
+              <Button Content="暂停" Command="{Binding PauseCommand}" />
+            </StackPanel>
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" FontSize="15" Foreground="#16243D" />
+            <TextBlock Text="{Binding Version, StringFormat='云端版本：{0}'}" Foreground="#58677F" />
+            <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressPercent}" Height="12" Margin="0,10,0,0" />
+            <TextBlock Text="{Binding ProgressText}" Foreground="#58677F" />
+            <Border Background="#E9EFF9" CornerRadius="8" Padding="16" Margin="0,20,0,0">
+              <TextBlock Text="本地修改会保留。下载中断后，未完成文件会保存在 .part 中；重新检查并点击“下载 / 继续”即可续传。"
+                         TextWrapping="Wrap" Foreground="#344561" />
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="文档">
+        <Grid ColumnDefinitions="220,*" Margin="18" ColumnSpacing="14">
+          <StackPanel Grid.Column="0" Spacing="8">
+            <TextBlock Text="选手包文档" FontWeight="SemiBold" FontSize="15" />
+            <Button Content="刷新目录" Command="{Binding RefreshDocsCommand}" />
+            <ListBox ItemsSource="{Binding DocumentNames}"
+                     SelectedItem="{Binding SelectedDocument}" />
+          </StackPanel>
+          <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*">
+            <TextBox Grid.Row="0" Text="{Binding SearchText}" Watermark="在当前文档中搜索" />
+            <TextBlock Grid.Row="1" Text="{Binding SearchStatus}" Foreground="#58677F" Margin="0,0,0,8" />
+            <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="16">
+              <md:MarkdownScrollViewer Markdown="{Binding DocumentText}"
+                                       AssetPathRoot="{Binding DocumentAssetPath}"
+                                       SelectionEnabled="True" />
+            </Border>
+          </Grid>
+        </Grid>
+      </TabItem>
+      <TabItem Header="本地启动">
+        <StackPanel Margin="18" Spacing="12">
+          <TextBlock Text="启动配置" FontSize="17" FontWeight="SemiBold" />
+          <TextBlock Text="在选手包根目录放置 thuai10-launch.json，写明服务器、界面与选手程序的相对路径和参数。"
+                     TextWrapping="Wrap" Foreground="#58677F" />
+          <StackPanel Orientation="Horizontal">
+            <Button Content="启动对局" Command="{Binding LaunchCommand}" />
+            <Button Content="停止全部" Command="{Binding StopCommand}" />
+          </StackPanel>
+          <TextBlock Text="运行日志" FontWeight="SemiBold" />
+          <TextBox Text="{Binding LaunchLog}" IsReadOnly="True" AcceptsReturn="True"
+                   TextWrapping="Wrap" VerticalAlignment="Stretch" MinHeight="340" />
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>
