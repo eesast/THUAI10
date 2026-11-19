@@ -1,15 +1,47 @@
 name: format
+
 on:
   push:
-    branches: [dev, main, master]
+    branches: [dev, main]
   pull_request:
-    branches: [dev, main, master]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   clang-format-checking:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: DoozyX/clang-format-lint-action@v0.20
+
+      # 仓库当前还没有 C/C++ 源码；DoozyX action 在找不到文件时会直接返回失败，
+      # 因此先检测是否真的有需要检查的文件（并排除第三方/生成目录）。
+      - name: Detect C/C++ sources
+        id: cpp
+        shell: bash
+        run: |
+          count=$(git ls-files -- \
+            '*.c' '*.h' '*.C' '*.H' \
+            '*.cpp' '*.hpp' '*.cc' '*.hh' \
+            '*.c++' '*.h++' '*.cxx' '*.hxx' \
+            '*.i' '*.ixx' '*.ipp' '*.i++' \
+            | grep -vcE '^(CAPI/cpp/grpc/include|CAPI/cpp/proto|dependency/proto|CAPI/cpp/spdlog/include/spdlog|CAPI/cpp/fmt|CAPI/cpp/out)/' || true)
+          echo "count=$count"
+          if [ "$count" -gt 0 ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No C/C++ sources outside excluded directories; skipping clang-format."
+          fi
+
+      - name: Check C/C++ formatting
+        if: steps.cpp.outputs.found == 'true'
+        uses: DoozyX/clang-format-lint-action@v0.20
         with:
           source: "."
           extensions: "c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx,i,ixx,ipp,i++"
@@ -21,7 +53,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Setup .NET Core
+
+      - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
@@ -41,9 +74,31 @@ jobs:
           dotnet restore "./playback/playback.slnx"
           dotnet format "./playback/playback.slnx" --severity error --no-restore --verify-no-changes
 
+      # Unity 工程尚未提交，这些目录在干净 checkout 中不存在；
+      # 直接对不存在的路径执行 dotnet format 会让整个 job 失败，因此逐个判断。
       - name: Check Interface (Unity)
+        shell: bash
         run: |
-          dotnet format whitespace "./interface/Unity/Unity-Live/Assets/Scripts/" --folder --verify-no-changes
-          dotnet format whitespace "./interface/Unity/Unity-Playback/Assets/Scripts/" --folder --verify-no-changes
-          dotnet format whitespace "./interface/Unity/Unity-Trial/Assets/Scripts/" --folder --verify-no-changes
-          dotnet format whitespace "./interface/Unity/Unity-Live/Packages/com.eesast.interface.shared/Runtime/Scripts/" --folder --verify-no-changes
+          failed=0
+          paths=(
+            "interface/Unity/Unity-Live/Assets/Scripts"
+            "interface/Unity/Unity-Playback/Assets/Scripts"
+            "interface/Unity/Unity-Trial/Assets/Scripts"
+          )
+          # 自动发现 Packages 下的脚本目录，避免包目录改名（如 interface/nteface 拼写）后漏检。
+          while IFS= read -r path; do
+            paths+=("$path")
+          done < <(find interface/Unity -type d -path '*/Packages/*/Runtime/Scripts' 2>/dev/null)
+          for path in "${paths[@]}"; do
+            if [ ! -d "$path" ]; then
+              echo "Skipping missing path: $path"
+              continue
+            fi
+            if [ -z "$(find "$path" -type f -name '*.cs' -print -quit 2>/dev/null)" ]; then
+              echo "Skipping directory without C# files: $path"
+              continue
+            fi
+            echo "Checking: $path"
+            dotnet format whitespace "$path" --folder --verify-no-changes || failed=1
+          done
+          exit "$failed"
