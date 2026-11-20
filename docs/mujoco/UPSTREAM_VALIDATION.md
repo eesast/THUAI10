@@ -1,6 +1,6 @@
 # THUAI10 接入验收（临时开发文档）
 
-日期：2026-11-20。基于组织 `dev` 的 `0f89c629e8b98152459fa842ff2684f6bee6262a`，功能分支为 `codex/mujoco-arena-integration`。本记录只列本次迁入后的实际复验，迁入前的长局与界面历史记录另见 [VALIDATION_V04.md](VALIDATION_V04.md)。
+日期：2026-11-20。基于组织 `dev` 的 `0f89c629e8b98152459fa842ff2684f6bee6262a`，功能分支为 `mujoco-arena-integration`。本记录只列本次迁入后的实际复验，迁入前的长局与界面历史记录另见 [VALIDATION_V04.md](VALIDATION_V04.md)。
 
 ## 仓库规范与分工
 

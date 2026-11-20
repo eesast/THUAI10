@@ -2,7 +2,7 @@ name: mujoco
 
 on:
     push:
-        branches: [dev, main, codex/mujoco-arena-integration]
+        branches: [dev, main, mujoco-arena-integration]
     pull_request:
         branches: [dev]
         types: [opened, synchronize, reopened, ready_for_review]
