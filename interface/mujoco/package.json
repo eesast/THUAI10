@@ -1,0 +1,11 @@
+{
+    "name": "thuai10-mujoco-interface",
+    "private": true,
+    "scripts": {
+        "format": "prettier --config .prettierrc.json --write . ../../dependency/shell/mujoco/*.mjs",
+        "format:check": "prettier --config .prettierrc.json --check . ../../dependency/shell/mujoco/*.mjs"
+    },
+    "devDependencies": {
+        "prettier": "3.10.1"
+    }
+}

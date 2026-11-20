@@ -34,6 +34,10 @@ https://docs.eesast.com/docs/contests/THUAI10   (To be completed)
 |  playback  |                      游戏回放组件，生成类库                      |             逻辑组             |
 |  resource  |          资源文件目录，用于存储主目录下 README 所用图片          |            端茶倒水            |
 
+### MuJoCo 具身智能原型
+
+可选机器人仿真后端、网页和 Python 选手接口已按目录分工接入。Windows 部署入口为 `dependency/shell/mujoco/deploy.cmd`，默认网页端口为 8767。运行方式、现有启动器配置及原型边界见 [MuJoCo 模块说明](logic/mujoco/README.md)。正式 .NET / gRPC / Unity 接口继续按各组约定开发。
+
 ### 分支管理
 
 - main：代码较稳定版本或阶段性成果，需要 2 reviewers，但由总负责人（端茶倒水）维护

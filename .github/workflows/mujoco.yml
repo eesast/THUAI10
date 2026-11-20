@@ -1,0 +1,76 @@
+name: mujoco
+
+on:
+    push:
+        branches: [dev, main, codex/mujoco-arena-integration]
+    pull_request:
+        branches: [dev]
+        types: [opened, synchronize, reopened, ready_for_review]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    python-style:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  persist-credentials: false
+            - uses: actions/setup-python@v6
+              with:
+                  python-version: "3.13"
+            - run: python -m pip install -r dependency/python/mujoco/requirements-dev.txt
+            - name: Check Python style
+              run: |
+                  python -m ruff check --config logic/mujoco/pyproject.toml logic/mujoco/embodied_arena logic/mujoco/tests CAPI/python/mujoco dependency/shell/mujoco playback/mujoco
+                  python -m ruff format --check --config logic/mujoco/pyproject.toml logic/mujoco/embodied_arena logic/mujoco/tests CAPI/python/mujoco dependency/shell/mujoco playback/mujoco
+
+    interface-style:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  persist-credentials: false
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "24"
+                  cache: npm
+                  cache-dependency-path: interface/mujoco/package-lock.json
+            - run: npm ci --ignore-scripts --prefix interface/mujoco
+            - run: npm run format:check --prefix interface/mujoco
+
+    python-tests:
+        runs-on: ubuntu-latest
+        timeout-minutes: 25
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  persist-credentials: false
+            - name: Build isolated headless test environment
+              run: docker build -f dependency/docker/mujoco/Dockerfile.test -t thuai10-mujoco-tests .
+            - name: Run physics, API, permissions and package tests
+              run: docker run --init --rm --network none --shm-size=512m thuai10-mujoco-tests
+
+    source-package:
+        if: github.event_name == 'workflow_dispatch'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  persist-credentials: false
+            - uses: actions/setup-python@v6
+              with:
+                  python-version: "3.13"
+            - name: Build allowlisted launcher-compatible source package
+              run: python dependency/shell/mujoco/build_package.py logic/mujoco/artifacts/package-ci
+            - uses: actions/upload-artifact@v6
+              with:
+                  name: thuai10-mujoco-source-package
+                  path: logic/mujoco/artifacts/package-ci/
+                  retention-days: 7

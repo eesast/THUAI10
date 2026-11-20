@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "embodied-arena"
+version = "0.4.0"
+description = "Optional MuJoCo G1 embodied competition backend for THUAI10"
+requires-python = ">=3.11"
+dependencies = ["mujoco==3.3.7", "numpy>=2.1,<3", "Pillow>=11"]
+
+[project.optional-dependencies]
+demo = ["onnxruntime>=1.20,<2"]
+test = ["pytest>=8", "fastapi==0.165.0", "uvicorn==0.54.0", "httpx==0.28.1"]
+web = ["fastapi==0.165.0", "uvicorn==0.54.0"]
+
+[project.scripts]
+embodied-arena = "embodied_arena.cli:main"
+arena-web = "embodied_arena.platform.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["embodied_arena*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+pythonpath = [".", "../.."]
+
+[tool.ruff]
+cache-dir = "artifacts/ruff-cache"
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+"embodied_arena/platform/agent.py" = ["E402"]
+"embodied_arena/platform/preflight.py" = ["E402"]
