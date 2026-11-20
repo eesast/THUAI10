@@ -1,83 +1,256 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="using:Avalonia.Data.Converters"
+        xmlns:ctxt="using:ColorTextBlock.Avalonia"
+        xmlns:local="using:Thuai10.Launcher"
         xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
         x:Class="Thuai10.Launcher.MainWindow"
-        Title="THUAI10 · 选手平台"
-        Width="960" Height="680" MinWidth="760" MinHeight="540"
-        Background="#F5F7FB">
-  <Window.Styles>
-    <Style Selector="Button">
-      <Setter Property="Padding" Value="16,8" />
-      <Setter Property="Margin" Value="0,0,8,0" />
-    </Style>
-    <Style Selector="TextBox">
-      <Setter Property="Margin" Value="0,5,0,12" />
-    </Style>
-  </Window.Styles>
-  <DockPanel Margin="24">
-    <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,18">
-      <TextBlock Text="THUAI10 选手平台" FontSize="28" FontWeight="Bold" Foreground="#16243D" />
-      <TextBlock Text="下载、更新、阅读文档与本地启动" FontSize="14" Foreground="#58677F" />
-    </StackPanel>
-    <TabControl>
-      <TabItem Header="下载与更新">
-        <ScrollViewer>
-          <StackPanel Margin="18" Spacing="6">
-            <TextBlock Text="选手包文件清单地址" FontSize="15" FontWeight="SemiBold" />
-            <TextBlock Text="由平台组发布的 JSON 地址；本机测试可填 localhost 地址。" Foreground="#58677F" />
-            <TextBox Text="{Binding CatalogAddress}" Watermark="https://example.com/thuai10/catalog.json" />
-            <TextBlock Text="安装目录" FontSize="15" FontWeight="SemiBold" />
-            <TextBox Text="{Binding InstallRoot}" Watermark="选手包保存位置" />
-            <Button Content="选择文件夹" Click="ChooseFolderClick" HorizontalAlignment="Left" />
-            <StackPanel Orientation="Horizontal" Margin="0,8,0,8">
-              <Button Content="检查更新" Command="{Binding CheckCommand}" />
-              <Button Content="下载 / 继续" Command="{Binding DownloadCommand}" />
-              <Button Content="暂停" Command="{Binding PauseCommand}" />
+        Title="THUAI10"
+        Icon="/Assets/eesast-logo.png"
+        Width="1040" Height="700" MinWidth="820" MinHeight="560"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur, Mica, Blur, None"
+        TransparencyBackgroundFallback="#FFFFFF"
+        FontFamily="{DynamicResource UiFont}"
+        FontSize="13"
+        Foreground="{DynamicResource TextPrimary}">
+  <Border Classes="windowRoot">
+    <TabControl Classes="nav" TabStripPlacement="Left">
+      <!-- ===== 1. 下载与更新 ===== -->
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Classes="nav" Data="{DynamicResource IconDownload}" Width="15" Height="15" VerticalAlignment="Center" />
+            <TextBlock Text="下载与更新" VerticalAlignment="Center" />
+          </StackPanel>
+        </TabItem.Header>
+        <Grid RowDefinitions="52,*">
+          <!-- 工具栏 -->
+          <Border Grid.Row="0" Classes="toolbar drag">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+              <TextBlock Classes="toolbarTitle" Text="下载与更新" />
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                <Button Classes="ghost" Content="暂停" Command="{Binding PauseCommand}" />
+                <Button Classes="secondary" Content="检查更新" Command="{Binding CheckCommand}" />
+                <Button Classes="primary" Content="下载 / 继续" Command="{Binding DownloadCommand}" />
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="28,24" Spacing="24" MaxWidth="720">
+              <!-- 状态区（本页视觉重点） -->
+              <StackPanel Spacing="14">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                  <Border Classes="iconTile" VerticalAlignment="Top">
+                    <PathIcon Data="{DynamicResource IconDownload}" Width="20" Height="20"
+                              Foreground="{DynamicResource Accent}" />
+                  </Border>
+                  <StackPanel Grid.Column="1" Spacing="5" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="选手包" FontSize="15" FontWeight="SemiBold"
+                                 Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                      <Border Classes="badge"
+                              IsVisible="{Binding Version, Converter={x:Static local:Converters.HasRealVersion}}">
+                        <TextBlock Text="{Binding Version}" FontSize="12"
+                                   Foreground="{DynamicResource AccentText}" />
+                      </Border>
+                    </StackPanel>
+                    <TextBlock Text="{Binding Status}" FontSize="13"
+                               Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap" />
+                  </StackPanel>
+                </Grid>
+
+                <StackPanel Spacing="8">
+                  <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressPercent}" />
+                  <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <TextBlock Text="{Binding ProgressText}" FontSize="12"
+                               Foreground="{DynamicResource TextTertiary}" TextWrapping="Wrap" />
+                    <TextBlock Grid.Column="1" FontSize="12" Foreground="{DynamicResource TextTertiary}"
+                               Text="{Binding ProgressPercent, StringFormat='{}{0:0}%'}" />
+                  </Grid>
+                </StackPanel>
+              </StackPanel>
+
+              <!-- 来源分组 -->
+              <StackPanel Spacing="6">
+                <TextBlock Classes="groupTitle" Text="来源" />
+                <Border Classes="group">
+                  <!-- 两行共用同一套列定义，保证标签列与输入框左边缘完全对齐 -->
+                  <Grid RowDefinitions="44,1,44" ColumnDefinitions="120,*,Auto" ColumnSpacing="8" Margin="14,0">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="文件清单地址" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                             Text="{Binding CatalogAddress}"
+                             Watermark="https://example.com/thuai10/catalog.json"
+                             VerticalAlignment="Center" />
+
+                    <Border Grid.Row="1" Grid.ColumnSpan="3" Height="1"
+                            Background="{DynamicResource Separator}" VerticalAlignment="Center" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="安装目录" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding InstallRoot}" Watermark="选手包保存位置"
+                             VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="2" Classes="secondary" Click="ChooseFolderClick"
+                            VerticalAlignment="Center">
+                      <StackPanel Orientation="Horizontal" Spacing="6">
+                        <PathIcon Data="{DynamicResource IconFolder}" Width="14" Height="14" VerticalAlignment="Center" />
+                        <TextBlock Text="选择…" VerticalAlignment="Center" />
+                      </StackPanel>
+                    </Button>
+                  </Grid>
+                </Border>
+                <TextBlock Classes="note" Text="清单地址由平台组发布；本机测试可填 localhost 地址。" />
+              </StackPanel>
+
+              <!-- 底部提示 -->
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                <PathIcon Data="{DynamicResource IconInfo}" Width="12" Height="12"
+                          Foreground="{DynamicResource TextTertiary}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                <TextBlock Grid.Column="1" Classes="note"
+                           Text="本地修改会保留。下载中断后，未完成文件会保存在 .part 中；重新检查并点击“下载 / 继续”即可续传。" />
+              </Grid>
             </StackPanel>
-            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" FontSize="15" Foreground="#16243D" />
-            <TextBlock Text="{Binding Version, StringFormat='云端版本：{0}'}" Foreground="#58677F" />
-            <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressPercent}" Height="12" Margin="0,10,0,0" />
-            <TextBlock Text="{Binding ProgressText}" Foreground="#58677F" />
-            <Border Background="#E9EFF9" CornerRadius="8" Padding="16" Margin="0,20,0,0">
-              <TextBlock Text="本地修改会保留。下载中断后，未完成文件会保存在 .part 中；重新检查并点击“下载 / 继续”即可续传。"
-                         TextWrapping="Wrap" Foreground="#344561" />
-            </Border>
-          </StackPanel>
-        </ScrollViewer>
+          </ScrollViewer>
+        </Grid>
       </TabItem>
-      <TabItem Header="文档">
-        <Grid ColumnDefinitions="220,*" Margin="18" ColumnSpacing="14">
-          <StackPanel Grid.Column="0" Spacing="8">
-            <TextBlock Text="选手包文档" FontWeight="SemiBold" FontSize="15" />
-            <Button Content="刷新目录" Command="{Binding RefreshDocsCommand}" />
-            <ListBox ItemsSource="{Binding DocumentNames}"
-                     SelectedItem="{Binding SelectedDocument}" />
+
+      <!-- ===== 2. 文档 ===== -->
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Classes="nav" Data="{DynamicResource IconDocument}" Width="15" Height="15" VerticalAlignment="Center" />
+            <TextBlock Text="文档" VerticalAlignment="Center" />
           </StackPanel>
-          <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*">
-            <TextBox Grid.Row="0" Text="{Binding SearchText}" Watermark="在当前文档中搜索" />
-            <TextBlock Grid.Row="1" Text="{Binding SearchStatus}" Foreground="#58677F" Margin="0,0,0,8" />
-            <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="16">
-              <md:MarkdownScrollViewer Markdown="{Binding DocumentText}"
-                                       AssetPathRoot="{Binding DocumentAssetPath}"
-                                       SelectionEnabled="True" />
+        </TabItem.Header>
+        <Grid ColumnDefinitions="220,*">
+          <!-- 文档列表 -->
+          <Border Grid.Column="0" Background="{DynamicResource DocListBg}"
+                  BorderBrush="{DynamicResource Separator}" BorderThickness="0,0,1,0">
+            <Grid RowDefinitions="52,*">
+              <Border Grid.Row="0" Classes="toolbar drag">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Classes="toolbarTitle" Text="文档" />
+                  <Button Grid.Column="1" Classes="icon" Command="{Binding RefreshDocsCommand}"
+                          ToolTip.Tip="刷新目录" VerticalAlignment="Center">
+                    <PathIcon Data="{DynamicResource IconRefresh}" Width="15" Height="15" />
+                  </Button>
+                </Grid>
+              </Border>
+              <Grid Grid.Row="1" Margin="6">
+                <ListBox ItemsSource="{Binding DocumentNames}"
+                         SelectedItem="{Binding SelectedDocument}" />
+                <TextBlock Text="暂无文档，请先下载选手包" FontSize="12"
+                           Foreground="{DynamicResource TextTertiary}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           TextAlignment="Center" TextWrapping="Wrap" Margin="12"
+                           IsVisible="{Binding !DocumentNames.Count}" />
+              </Grid>
+            </Grid>
+          </Border>
+
+          <!-- 阅读区 -->
+          <Grid Grid.Column="1" RowDefinitions="52,*">
+            <Border Grid.Row="0" Classes="toolbar drag">
+              <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <TextBlock Text="{Binding SearchStatus}" FontSize="12"
+                           Foreground="{DynamicResource TextTertiary}"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis" />
+                <Grid Grid.Column="1" Width="220" VerticalAlignment="Center">
+                  <TextBox Classes="search" Text="{Binding SearchText}" Watermark="在当前文档中搜索" />
+                  <PathIcon Data="{DynamicResource IconSearch}" Width="14" Height="14"
+                            Margin="9,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Foreground="{DynamicResource TextTertiary}" IsHitTestVisible="False" />
+                </Grid>
+              </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Background="{DynamicResource ContentBg}" Padding="36,28">
+              <Grid>
+                <md:MarkdownScrollViewer Markdown="{Binding DocumentText}"
+                                         AssetPathRoot="{Binding DocumentAssetPath}"
+                                         SelectionEnabled="True"
+                                         MaxWidth="680" HorizontalAlignment="Left">
+                  <md:MarkdownScrollViewer.Styles>
+                    <Style Selector="ctxt|CTextBlock.Heading1">
+                      <Setter Property="FontSize" Value="22" />
+                      <Setter Property="FontWeight" Value="SemiBold" />
+                      <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                      <Setter Property="Margin" Value="0,2,0,10" />
+                    </Style>
+                    <Style Selector="ctxt|CTextBlock.Heading2">
+                      <Setter Property="FontSize" Value="18" />
+                      <Setter Property="FontWeight" Value="SemiBold" />
+                      <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                      <Setter Property="Margin" Value="0,14,0,6" />
+                    </Style>
+                    <Style Selector="ctxt|CTextBlock.Heading3">
+                      <Setter Property="FontSize" Value="15" />
+                      <Setter Property="FontWeight" Value="SemiBold" />
+                      <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                      <Setter Property="Margin" Value="0,12,0,4" />
+                    </Style>
+                    <Style Selector="ctxt|CTextBlock.Paragraph">
+                      <Setter Property="FontSize" Value="14" />
+                      <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                      <Setter Property="Margin" Value="0,3,0,3" />
+                    </Style>
+                    <Style Selector="Border.CodeBlock">
+                      <Setter Property="Background" Value="{DynamicResource GroupBg}" />
+                      <Setter Property="CornerRadius" Value="6" />
+                      <Setter Property="Padding" Value="12" />
+                      <Setter Property="Margin" Value="0,6,0,6" />
+                    </Style>
+                  </md:MarkdownScrollViewer.Styles>
+                </md:MarkdownScrollViewer>
+                <TextBlock Text="从左侧选择一篇文档" FontSize="12"
+                           Foreground="{DynamicResource TextTertiary}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           IsVisible="{Binding DocumentText, Converter={x:Static conv:StringConverters.IsNullOrEmpty}}" />
+              </Grid>
             </Border>
           </Grid>
         </Grid>
       </TabItem>
-      <TabItem Header="本地启动">
-        <StackPanel Margin="18" Spacing="12">
-          <TextBlock Text="启动配置" FontSize="17" FontWeight="SemiBold" />
-          <TextBlock Text="在选手包根目录放置 thuai10-launch.json，写明服务器、界面与选手程序的相对路径和参数。"
-                     TextWrapping="Wrap" Foreground="#58677F" />
-          <StackPanel Orientation="Horizontal">
-            <Button Content="启动对局" Command="{Binding LaunchCommand}" />
-            <Button Content="停止全部" Command="{Binding StopCommand}" />
+
+      <!-- ===== 3. 本地启动 ===== -->
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Classes="nav" Data="{DynamicResource IconPlay}" Width="15" Height="15" VerticalAlignment="Center" />
+            <TextBlock Text="本地启动" VerticalAlignment="Center" />
           </StackPanel>
-          <TextBlock Text="运行日志" FontWeight="SemiBold" />
-          <TextBox Text="{Binding LaunchLog}" IsReadOnly="True" AcceptsReturn="True"
-                   TextWrapping="Wrap" VerticalAlignment="Stretch" MinHeight="340" />
-        </StackPanel>
+        </TabItem.Header>
+        <Grid RowDefinitions="52,*">
+          <Border Grid.Row="0" Classes="toolbar drag">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+              <TextBlock Classes="toolbarTitle" Text="本地启动" />
+              <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                <Button Classes="danger" Content="停止全部" Command="{Binding StopCommand}" />
+                <Button Classes="primary" Command="{Binding LaunchCommand}">
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <PathIcon Data="{DynamicResource IconPlay}" Width="12" Height="12" VerticalAlignment="Center" />
+                    <TextBlock Text="启动对局" VerticalAlignment="Center" />
+                  </StackPanel>
+                </Button>
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Grid Grid.Row="1" Margin="28,24" RowDefinitions="Auto,*" RowSpacing="16">
+            <TextBlock Text="读取选手包根目录下的 thuai10-launch.json，依次启动服务器、界面和选手程序。"
+                       FontSize="13" Foreground="{DynamicResource TextSecondary}" TextWrapping="Wrap" />
+            <Grid Grid.Row="1" RowDefinitions="Auto,*" RowSpacing="8">
+              <TextBlock Classes="groupTitle" Text="运行日志" />
+              <TextBox Grid.Row="1" Classes="log" Text="{Binding LaunchLog}" IsReadOnly="True"
+                       AcceptsReturn="True" TextWrapping="Wrap"
+                       Watermark="暂无日志。点击“启动对局”后，各程序的输出会显示在这里。"
+                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            </Grid>
+          </Grid>
+        </Grid>
       </TabItem>
     </TabControl>
-  </DockPanel>
+  </Border>
 </Window>

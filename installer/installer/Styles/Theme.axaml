@@ -1,0 +1,599 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    界面主题：macOS 原生质感的颜色、字体、图标几何与控件样式。
+
+    图标几何数据取自 Microsoft Fluent UI System Icons（MIT 许可）的 Regular（线性）版本，
+    文件 ic_fluent_*_16_regular.svg，已将其 d 路径原样转成 StreamGeometry。
+    https://github.com/microsoft/fluentui-system-icons
+  -->
+  <Styles.Resources>
+    <ResourceDictionary>
+      <!-- 强调色（清华紫），只用于当前选中项与唯一主操作 -->
+      <SolidColorBrush x:Key="Accent" Color="#660874" />
+      <SolidColorBrush x:Key="AccentHover" Color="#740A84" />
+      <SolidColorBrush x:Key="AccentPressed" Color="#55066A" />
+      <SolidColorBrush x:Key="AccentSoft" Color="#1A660874" />
+      <SolidColorBrush x:Key="AccentText" Color="#5A0767" />
+      <SolidColorBrush x:Key="FocusRing" Color="#38660874" />
+      <SolidColorBrush x:Key="Danger" Color="#C4314B" />
+
+      <!-- 文字与分隔 -->
+      <SolidColorBrush x:Key="TextPrimary" Color="#1D1D1F" />
+      <SolidColorBrush x:Key="TextSecondary" Color="#6E6E73" />
+      <SolidColorBrush x:Key="TextTertiary" Color="#A1A1A6" />
+      <SolidColorBrush x:Key="Separator" Color="#14000000" />
+
+      <!-- 表面 -->
+      <SolidColorBrush x:Key="ContentBg" Color="#FFFFFF" />
+      <SolidColorBrush x:Key="GroupBg" Color="#F7F7F8" />
+      <SolidColorBrush x:Key="GroupBorder" Color="#0F000000" />
+      <SolidColorBrush x:Key="SidebarFallback" Color="#F4F2F6" />
+      <SolidColorBrush x:Key="DocListBg" Color="#FBFBFC" />
+      <SolidColorBrush x:Key="TileBg" Color="#F3EAF5" />
+      <SolidColorBrush x:Key="HoverBg" Color="#0D000000" />
+
+      <!-- 按钮渐变与阴影 -->
+      <LinearGradientBrush x:Key="PrimaryBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="#7A1A8C" />
+        <GradientStop Offset="1" Color="#620870" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="PrimaryHoverBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="#8A2A9C" />
+        <GradientStop Offset="1" Color="#72107F" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="SecondaryBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="#FFFFFF" />
+        <GradientStop Offset="1" Color="#F9F9FA" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="SecondaryHoverBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+        <GradientStop Offset="0" Color="#FFFFFF" />
+        <GradientStop Offset="1" Color="#F4F4F6" />
+      </LinearGradientBrush>
+
+      <!-- 字体 -->
+      <FontFamily x:Key="UiFont">Inter, PingFang SC, Microsoft YaHei UI, Noto Sans CJK SC, sans-serif</FontFamily>
+      <FontFamily x:Key="MonoFont">SF Mono, Menlo, Cascadia Mono, Consolas, monospace</FontFamily>
+
+      <!-- 图标（Fluent UI System Icons，MIT） -->
+      <StreamGeometry x:Key="IconDownload">M3.5 13H12.5C12.7761 13 13 13.2239 13 13.5C13 13.7455 12.8231 13.9496 12.5899 13.9919L12.5 14H3.5C3.22386 14 3 13.7761 3 13.5C3 13.2545 3.17688 13.0504 3.41012 13.0081L3.5 13H12.5H3.5ZM7.91012 1.00806L8 1C8.24546 1 8.44961 1.17688 8.49194 1.41012L8.5 1.5V10.292L11.182 7.61091C11.3555 7.43735 11.625 7.41806 11.8198 7.55306L11.8891 7.61091C12.0627 7.78448 12.0819 8.0539 11.9469 8.24877L11.8891 8.31802L8.35355 11.8536C8.17999 12.0271 7.91056 12.0464 7.71569 11.9114L7.64645 11.8536L4.11091 8.31802C3.91565 8.12276 3.91565 7.80617 4.11091 7.61091C4.28448 7.43735 4.5539 7.41806 4.74877 7.55306L4.81802 7.61091L7.5 10.292V1.5C7.5 1.25454 7.67688 1.05039 7.91012 1.00806L8 1L7.91012 1.00806Z</StreamGeometry>
+      <StreamGeometry x:Key="IconDocument">M5 1C3.89543 1 3 1.89543 3 3V13C3 14.1046 3.89543 15 5 15H11C12.1046 15 13 14.1046 13 13V5.41421C13 5.01639 12.842 4.63486 12.5607 4.35355L9.64645 1.43934C9.36514 1.15804 8.98361 1 8.58579 1H5ZM4 3C4 2.44772 4.44772 2 5 2H8V4.5C8 5.32843 8.67157 6 9.5 6H12V13C12 13.5523 11.5523 14 11 14H5C4.44772 14 4 13.5523 4 13V3ZM11.7929 5H9.5C9.22386 5 9 4.77614 9 4.5V2.20711L11.7929 5Z</StreamGeometry>
+      <StreamGeometry x:Key="IconPlay">M5.74514 3.06445C5.41183 2.87696 5 3.11781 5 3.50023V12.5005C5 12.8829 5.41182 13.1238 5.74512 12.9363L13.7454 8.43631C14.0852 8.24517 14.0852 7.75589 13.7454 7.56474L5.74514 3.06445ZM4 3.50023C4 2.35298 5.2355 1.63041 6.23541 2.19288L14.2357 6.69317C15.2551 7.26664 15.2551 8.73446 14.2356 9.3079L6.23537 13.8079C5.23546 14.3703 4 13.6477 4 12.5005V3.50023Z</StreamGeometry>
+      <StreamGeometry x:Key="IconFolder">M2 4.5V6H5.58579C5.71839 6 5.84557 5.94732 5.93934 5.85355L7.29289 4.5L5.93934 3.14645C5.84557 3.05268 5.71839 3 5.58579 3H3.5C2.67157 3 2 3.67157 2 4.5ZM1 4.5C1 3.11929 2.11929 2 3.5 2H5.58579C5.98361 2 6.36514 2.15804 6.64645 2.43934L8.20711 4H12.5C13.8807 4 15 5.11929 15 6.5V11.5C15 12.8807 13.8807 14 12.5 14H3.5C2.11929 14 1 12.8807 1 11.5V4.5ZM2 7V11.5C2 12.3284 2.67157 13 3.5 13H12.5C13.3284 13 14 12.3284 14 11.5V6.5C14 5.67157 13.3284 5 12.5 5H8.20711L6.64645 6.56066C6.36514 6.84197 5.98361 7 5.58579 7H2Z</StreamGeometry>
+      <StreamGeometry x:Key="IconRefresh">M3 8C3 5.23858 5.23858 3 8 3C9.63527 3 11.0878 3.78495 12.0005 5H10C9.72386 5 9.5 5.22386 9.5 5.5C9.5 5.77614 9.72386 6 10 6H12.8904C12.8973 6.00014 12.9041 6.00014 12.911 6H13C13.2761 6 13.5 5.77614 13.5 5.5V2.5C13.5 2.22386 13.2761 2 13 2C12.7239 2 12.5 2.22386 12.5 2.5V4.03138C11.4009 2.78613 9.79253 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14C11.1301 14 13.6999 11.6035 13.9756 8.54488C14.0003 8.26985 13.7975 8.0268 13.5225 8.00202C13.2474 7.97723 13.0044 8.1801 12.9796 8.45512C12.75 11.003 10.6079 13 8 13C5.23858 13 3 10.7614 3 8Z</StreamGeometry>
+      <StreamGeometry x:Key="IconSearch">M11.0195 11.7266C10.0658 12.5217 8.83875 13 7.5 13C4.46243 13 2 10.5376 2 7.5C2 4.46243 4.46243 2 7.5 2C10.5376 2 13 4.46243 13 7.5C13 8.83875 12.5217 10.0658 11.7266 11.0195L14.8535 14.1464C15.0488 14.3417 15.0488 14.6583 14.8535 14.8536C14.6583 15.0488 14.3417 15.0488 14.1464 14.8536L11.0195 11.7266ZM12 7.5C12 5.01472 9.98528 3 7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5Z</StreamGeometry>
+      <StreamGeometry x:Key="IconInfo">M8.49902 7.49998C8.49902 7.22384 8.27517 6.99998 7.99902 6.99998C7.72288 6.99998 7.49902 7.22384 7.49902 7.49998V10.5C7.49902 10.7761 7.72288 11 7.99902 11C8.27517 11 8.49902 10.7761 8.49902 10.5V7.49998ZM8.74807 5.50001C8.74807 5.91369 8.41271 6.24905 7.99903 6.24905C7.58535 6.24905 7.25 5.91369 7.25 5.50001C7.25 5.08633 7.58535 4.75098 7.99903 4.75098C8.41271 4.75098 8.74807 5.08633 8.74807 5.50001ZM8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1ZM2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8Z</StreamGeometry>
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <!-- ===== 文字 ===== -->
+  <Style Selector="TextBlock.toolbarTitle">
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="TextBlock.groupTitle">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+  </Style>
+  <Style Selector="TextBlock.note">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+  <Style Selector="TextBlock.label">
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <!-- ===== 窗口 ===== -->
+  <Style Selector="Border.windowRoot">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="ClipToBounds" Value="True" />
+  </Style>
+  <Style Selector="Window.linux Border.windowRoot">
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+
+  <!-- 侧栏：默认半透明毛玻璃，不支持透明时回退为不透明底色 -->
+  <Style Selector="Border.sidebarVeil">
+    <Setter Property="Background" Value="#73F9F5FD" />
+  </Style>
+  <Style Selector="Border.sidebarOpaque">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Window.opaque Border.sidebarOpaque">
+    <Setter Property="Background" Value="{DynamicResource SidebarFallback}" />
+  </Style>
+
+  <!-- ===== 工具栏（与标题栏同高，可拖动） ===== -->
+  <Style Selector="Border.toolbar">
+    <Setter Property="Height" Value="52" />
+    <Setter Property="Padding" Value="24,0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Separator}" />
+    <Setter Property="BorderThickness" Value="0,0,0,1" />
+  </Style>
+  <!-- Windows 扩展客户区后，右上角系统按钮会压住工具栏右侧 -->
+  <Style Selector="Window.win Border.toolbar">
+    <Setter Property="Padding" Value="24,0,164,0" />
+  </Style>
+  <Style Selector="Border.toolbarPlain">
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+
+  <!-- ===== 卡片与分组 ===== -->
+  <Style Selector="Border.group">
+    <Setter Property="Background" Value="{DynamicResource GroupBg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GroupBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+  </Style>
+  <Style Selector="Border.badge">
+    <Setter Property="Background" Value="{DynamicResource TileBg}" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="Padding" Value="6,1" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Border.iconTile">
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Background" Value="{DynamicResource TileBg}" />
+  </Style>
+
+  <!-- ===== 按钮 ===== -->
+  <Style Selector="Button">
+    <Setter Property="Height" Value="28" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="Padding" Value="12,0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Medium" />
+    <Setter Property="Background" Value="{DynamicResource SecondaryBrush}" />
+    <Setter Property="BorderBrush" Value="#26000000" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBrush}" />
+    <Setter Property="BorderBrush" Value="#26000000" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="BoxShadow" Value="inset 0 1 0 0 #FFFFFFFF, 0 1 1 0 #12000000" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="Padding" Value="{TemplateBinding Padding}" />
+  </Style>
+  <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryHoverBrush}" />
+    <Setter Property="BorderBrush" Value="#26000000" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#F0F0F2" />
+    <Setter Property="BorderBrush" Value="#1F000000" />
+    <Setter Property="BoxShadow" Value="inset 0 1 1 0 #0F000000" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="Button:disabled">
+    <Setter Property="Opacity" Value="0.4" />
+    <Setter Property="Cursor" Value="Arrow" />
+  </Style>
+
+  <!-- 主按钮：竖向紫色渐变 + 顶部高光 -->
+  <Style Selector="Button.primary /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="#4E0659" />
+    <Setter Property="BoxShadow" Value="inset 0 1 0 0 #33FFFFFF, 0 1 2 0 #26000000" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+    <Setter Property="BorderBrush" Value="#5A0767" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AccentPressed}" />
+    <Setter Property="BorderBrush" Value="#4A0456" />
+    <Setter Property="BoxShadow" Value="0 1 1 0 #1A000000" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <!-- 次按钮 -->
+  <Style Selector="Button.secondary /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBrush}" />
+    <Setter Property="BorderBrush" Value="#26000000" />
+    <Setter Property="BoxShadow" Value="inset 0 1 0 0 #FFFFFFFF, 0 1 1 0 #12000000" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+
+  <!-- 弱化按钮 -->
+  <Style Selector="Button.ghost /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="none" />
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+  </Style>
+  <Style Selector="Button.ghost:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource HoverBg}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BoxShadow" Value="none" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="Button.ghost:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#14000000" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BoxShadow" Value="none" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+
+  <!-- 危险按钮：次按钮外观 + 红色文字 -->
+  <Style Selector="Button.danger /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBrush}" />
+    <Setter Property="BorderBrush" Value="#26000000" />
+    <Setter Property="BoxShadow" Value="inset 0 1 0 0 #FFFFFFFF, 0 1 1 0 #12000000" />
+    <Setter Property="Foreground" Value="{DynamicResource Danger}" />
+  </Style>
+  <Style Selector="Button.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#FDF5F6" />
+    <Setter Property="BorderBrush" Value="#26000000" />
+    <Setter Property="Foreground" Value="{DynamicResource Danger}" />
+  </Style>
+  <Style Selector="Button.danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#F8E9EC" />
+    <Setter Property="BorderBrush" Value="#1F000000" />
+    <Setter Property="Foreground" Value="{DynamicResource Danger}" />
+  </Style>
+
+  <!-- 图标按钮 -->
+  <Style Selector="Button.icon">
+    <Setter Property="Width" Value="28" />
+    <Setter Property="Height" Value="28" />
+    <Setter Property="MinWidth" Value="28" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="Button.icon /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="BoxShadow" Value="none" />
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+  </Style>
+  <Style Selector="Button.icon:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource HoverBg}" />
+    <Setter Property="BoxShadow" Value="none" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="Button.icon:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#14000000" />
+    <Setter Property="BoxShadow" Value="none" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+
+  <!-- 图标颜色 -->
+  <Style Selector="Button PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.primary PathIcon">
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.danger PathIcon">
+    <Setter Property="Foreground" Value="{DynamicResource Danger}" />
+  </Style>
+
+  <!-- ===== 输入框 ===== -->
+  <Style Selector="TextBox">
+    <Setter Property="Height" Value="28" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="Padding" Value="8,0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Background" Value="{DynamicResource ContentBg}" />
+    <Setter Property="BorderBrush" Value="#1F000000" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource Accent}" />
+  </Style>
+  <Style Selector="TextBox /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource ContentBg}" />
+    <Setter Property="BorderBrush" Value="#1F000000" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="BoxShadow" Value="inset 0 1 1 0 #0A000000" />
+  </Style>
+  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource ContentBg}" />
+    <Setter Property="BorderBrush" Value="#33000000" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="BoxShadow" Value="inset 0 1 1 0 #0A000000" />
+  </Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource ContentBg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Accent}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="BoxShadow" Value="0 0 0 3 #38660874" />
+  </Style>
+  <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+    <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+  </Style>
+
+  <!-- 搜索框：左侧内嵌放大镜 -->
+  <Style Selector="TextBox.search">
+    <Setter Property="Padding" Value="28,0,8,0" />
+  </Style>
+
+  <!-- 日志框：只读、等宽、聚焦不变色 -->
+  <Style Selector="TextBox.log">
+    <Setter Property="Height" Value="NaN" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="Background" Value="{DynamicResource GroupBg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GroupBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="12" />
+    <Setter Property="FontFamily" Value="{DynamicResource MonoFont}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource Accent}" />
+  </Style>
+  <Style Selector="TextBox.log /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource GroupBg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GroupBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="BoxShadow" Value="none" />
+  </Style>
+  <Style Selector="TextBox.log:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource GroupBg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GroupBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="none" />
+  </Style>
+  <Style Selector="TextBox.log:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource GroupBg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GroupBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BoxShadow" Value="none" />
+  </Style>
+  <Style Selector="TextBox.log /template/ TextBlock#PART_Watermark">
+    <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+  <Style Selector="TextBox.log /template/ ScrollViewer">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <!-- ===== 进度条 ===== -->
+  <Style Selector="ProgressBar">
+    <Setter Property="Height" Value="4" />
+    <Setter Property="MinHeight" Value="4" />
+    <Setter Property="CornerRadius" Value="2" />
+    <Setter Property="Background" Value="#0F000000" />
+    <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+  </Style>
+  <Style Selector="ProgressBar /template/ Border#PART_Track">
+    <Setter Property="Background" Value="#0F000000" />
+    <Setter Property="CornerRadius" Value="2" />
+    <Setter Property="Height" Value="4" />
+  </Style>
+  <Style Selector="ProgressBar /template/ Border#PART_Indicator">
+    <Setter Property="Background" Value="{DynamicResource Accent}" />
+    <Setter Property="CornerRadius" Value="2" />
+  </Style>
+
+  <!-- ===== 列表 ===== -->
+  <Style Selector="ListBox">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="ListBoxItem">
+    <Setter Property="Height" Value="28" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="Padding" Value="8,0" />
+    <Setter Property="Margin" Value="0,1,0,0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="8,0" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="ListBoxItem:pointerover">
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource HoverBg}" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="ListBoxItem:selected">
+    <Setter Property="Foreground" Value="{DynamicResource AccentText}" />
+  </Style>
+  <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+    <Setter Property="Foreground" Value="{DynamicResource AccentText}" />
+  </Style>
+  <Style Selector="ListBoxItem:selected:pointerover">
+    <Setter Property="Foreground" Value="{DynamicResource AccentText}" />
+  </Style>
+  <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+    <Setter Property="Foreground" Value="{DynamicResource AccentText}" />
+  </Style>
+
+  <!-- ===== 左侧导航（TabControl 重写） ===== -->
+  <Style Selector="TabControl.nav">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Vertical" Spacing="1" />
+      </ItemsPanelTemplate>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="210,*">
+          <!-- 侧栏：毛玻璃 + 回退底色 -->
+          <Panel Grid.Column="0" ClipToBounds="True">
+            <ExperimentalAcrylicBorder IsHitTestVisible="False">
+              <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                             TintColor="#F4F1F6"
+                                             TintOpacity="0.8"
+                                             MaterialOpacity="0.5"
+                                             FallbackColor="#F4F2F6" />
+              </ExperimentalAcrylicBorder.Material>
+            </ExperimentalAcrylicBorder>
+            <!-- macOS 上只调 TintOpacity/MaterialOpacity 时侧栏亮度会停在约 #DCDCDD，
+                 加一层 45% 的极浅紫白把合成结果拉到 macOS 侧栏的亮度（约 #E8E6EA），
+                 仍保留一半以上的毛玻璃透出；不透明回退时会被下方的 sidebarOpaque 盖住。 -->
+            <Border Classes="sidebarVeil" IsHitTestVisible="False" />
+            <Border Classes="sidebarOpaque" />
+
+            <Border BorderBrush="{DynamicResource Separator}" BorderThickness="0,0,1,0">
+              <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="10,0,10,10">
+                <!-- 标题栏拖动区：macOS 上让出红绿灯所在的 52px 高度 -->
+                <Border Grid.Row="0" Classes="topSpace drag" />
+
+                <!-- 品牌区 -->
+                <StackPanel Grid.Row="1" Classes="brand" Orientation="Horizontal" Spacing="8">
+                  <Image Source="avares://THUAI10.Launcher/Assets/eesast-logo.png"
+                         Width="24" Height="24" Stretch="Uniform"
+                         RenderOptions.BitmapInterpolationMode="HighQuality"
+                         VerticalAlignment="Center" />
+                  <TextBlock Text="THUAI10" FontSize="13" FontWeight="SemiBold"
+                             Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- 导航项 -->
+                <StackPanel Grid.Row="2" Spacing="4">
+                  <TextBlock Text="选手包" FontSize="11" FontWeight="SemiBold"
+                             Foreground="{DynamicResource TextTertiary}" Margin="8,0,0,4" />
+                  <ItemsPresenter Name="PART_ItemsPresenter" />
+                </StackPanel>
+
+                <!-- 底部版本 -->
+                <TextBlock Grid.Row="3" Classes="note" Margin="8,12,8,2"
+                           Text="{Binding Version, StringFormat='版本 · {0}'}" />
+              </Grid>
+            </Border>
+          </Panel>
+
+          <!-- 内容区 -->
+          <Border Grid.Column="1" Background="{DynamicResource ContentBg}">
+            <ContentPresenter Name="PART_SelectedContentHost"
+                              Content="{TemplateBinding SelectedContent}"
+                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch" />
+          </Border>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <!-- 侧栏顶部拖动区：mac 让出 52px 标题栏，win 让出系统按钮高度，linux 用系统标题栏只需少量留白 -->
+  <Style Selector="Border.topSpace">
+    <Setter Property="Height" Value="52" />
+  </Style>
+  <Style Selector="Window.win Border.topSpace">
+    <Setter Property="Height" Value="12" />
+  </Style>
+  <Style Selector="Window.linux Border.topSpace">
+    <Setter Property="Height" Value="10" />
+  </Style>
+  <Style Selector="StackPanel.brand">
+    <Setter Property="Margin" Value="8,0,8,16" />
+  </Style>
+
+  <Style Selector="TabControl.nav TabItem">
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="Height" Value="28" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="Padding" Value="8,0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="PART_NavItemRoot"
+                Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter Name="PART_HeaderContentPresenter"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  <Style Selector="TabControl.nav TabItem /template/ Border#PART_NavItemRoot">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:pointerover">
+    <Setter Property="Background" Value="{DynamicResource HoverBg}" />
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:pointerover /template/ Border#PART_NavItemRoot">
+    <Setter Property="Background" Value="{DynamicResource HoverBg}" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:selected">
+    <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+    <Setter Property="Foreground" Value="{DynamicResource AccentText}" />
+    <Setter Property="FontWeight" Value="Medium" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:selected /template/ Border#PART_NavItemRoot">
+    <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:selected:pointerover /template/ Border#PART_NavItemRoot">
+    <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:pressed">
+    <Setter Property="Background" Value="#1A000000" />
+  </Style>
+
+  <!-- 导航图标：只作用于带 nav 类的图标，避免命中页面内容 -->
+  <Style Selector="PathIcon.nav">
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:pointerover PathIcon.nav">
+    <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+  </Style>
+  <Style Selector="TabControl.nav TabItem:selected PathIcon.nav">
+    <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+  </Style>
+</Styles>
