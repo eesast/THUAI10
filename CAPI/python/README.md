@@ -34,3 +34,7 @@ Python 通信组件与选手接口
 ## 开发人员
 
 - 汪宇翔、郑悠健
+
+## MuJoCo 原型接口
+
+观测类型、策略示例及与正式通信协议的边界见 [mujoco/README.md](mujoco/README.md)。

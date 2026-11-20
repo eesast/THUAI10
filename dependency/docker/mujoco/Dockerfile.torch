@@ -1,0 +1,5 @@
+FROM thuai10-mujoco-policy:1
+USER root
+RUN pip install --no-cache-dir torch==2.7.0 --index-url https://download.pytorch.org/whl/cpu
+LABEL org.thuai10.mujoco.environment="arena-torch-cpu-v1"
+USER 65532:65532

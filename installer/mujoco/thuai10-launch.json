@@ -1,0 +1,17 @@
+{
+    "port": 8767,
+    "readyTimeoutSeconds": 60,
+    "server": {
+        "path": "logic/mujoco/.venv/Scripts/python.exe",
+        "arguments": [
+            "-m",
+            "embodied_arena.platform",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "{port}",
+            "--open"
+        ]
+    },
+    "players": []
+}
