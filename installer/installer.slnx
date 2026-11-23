@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="installer/installer.csproj" />
+  <Project Path="installer.Tests/installer.Tests.csproj" />
+  <Project Path="catalog-tool/catalog-tool.csproj" />
 </Solution>
