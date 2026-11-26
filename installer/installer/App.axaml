@@ -4,5 +4,6 @@
              RequestedThemeVariant="Light">
   <Application.Styles>
     <FluentTheme />
+    <StyleInclude Source="avares://THUAI10.Launcher/Styles/Theme.axaml" />
   </Application.Styles>
 </Application>

@@ -16,5 +16,8 @@
     <PackageReference Include="Markdown.Avalonia" Version="11.0.3" />
     <PackageReference Include="Tmds.DBus.Protocol" Version="0.21.3" />
   </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets/eesast-logo.png" />
+  </ItemGroup>
 
 </Project>
