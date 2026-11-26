@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Thuai10.Launcher.ViewModels;
@@ -14,6 +15,14 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = model;
         Closed += (_, _) => model.Dispose();
+        KeyDown += (_, e) =>
+        {
+            if (e.Key == Key.W && e.KeyModifiers.HasFlag(KeyModifiers.Meta))
+            {
+                e.Handled = true;
+                Close();
+            }
+        };
     }
 
     private async void ChooseFolderClick(object? sender, RoutedEventArgs e)
