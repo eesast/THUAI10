@@ -1,0 +1,28 @@
+FROM public.ecr.aws/docker/library/python:3.13-slim
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get -o Acquire::Retries=3 update \
+    && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 install -y --no-install-recommends \
+    libgl1-mesa-dri libegl1 libglfw3 xvfb xauth \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /workspace
+COPY dependency/python/mujoco/requirements-lock.txt /tmp/requirements-lock.txt
+RUN pip install --no-cache-dir -r /tmp/requirements-lock.txt
+COPY LICENSE /workspace/LICENSE
+COPY logic/mujoco/pyproject.toml logic/mujoco/README.md logic/mujoco/THIRD_PARTY.md logic/mujoco/assets.lock.json logic/mujoco/.dockerignore /workspace/logic/mujoco/
+COPY logic/mujoco/embodied_arena /workspace/logic/mujoco/embodied_arena
+COPY logic/mujoco/configs /workspace/logic/mujoco/configs
+COPY logic/mujoco/assets /workspace/logic/mujoco/assets
+COPY logic/mujoco/tests /workspace/logic/mujoco/tests
+COPY CAPI/python/mujoco/*.py CAPI/python/mujoco/README.md /workspace/CAPI/python/mujoco/
+COPY interface/mujoco/*.js interface/mujoco/*.css interface/mujoco/*.html interface/mujoco/*.png interface/mujoco/*.svg /workspace/interface/mujoco/
+COPY dependency/python/mujoco /workspace/dependency/python/mujoco
+COPY dependency/shell/mujoco/*.py dependency/shell/mujoco/*.ps1 dependency/shell/mujoco/*.cmd /workspace/dependency/shell/mujoco/
+COPY dependency/docker/mujoco /workspace/dependency/docker/mujoco
+COPY docs/mujoco /workspace/docs/mujoco
+COPY playback/mujoco /workspace/playback/mujoco
+COPY installer/mujoco /workspace/installer/mujoco
+RUN pip install --no-deps -e logic/mujoco \
+    && python dependency/shell/mujoco/fetch_assets.py
+ENV LIBGL_ALWAYS_SOFTWARE=1 MUJOCO_GL=glfw PYTHONDONTWRITEBYTECODE=1
+WORKDIR /workspace/logic/mujoco
+CMD ["xvfb-run", "-a", "python", "-m", "pytest", "-q"]

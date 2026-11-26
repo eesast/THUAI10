@@ -1,0 +1,7 @@
+*
+!embodied_arena/
+!embodied_arena/platform/
+!embodied_arena/platform/protocol.py
+!embodied_arena/platform/agent.py
+!runtime/
+!runtime/Dockerfile
