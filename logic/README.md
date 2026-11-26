@@ -40,3 +40,7 @@
 ## 开发人员
 
 - 曹煊赫、洪家豪、朱子铮
+
+## 可选 MuJoCo 原型
+
+具身智能原型见 [mujoco/README.md](mujoco/README.md)，与现有 .NET 10 工程并存。
